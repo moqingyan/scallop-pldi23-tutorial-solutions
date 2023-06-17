@@ -35,7 +35,7 @@ rel sink_node(a) = node(a) and not edge(a, _)
 // Practice 6: Does this graph contains at least one cycle?
 //   Definition: `contains_cycle(true)` means the graph contains a cycle. false otherwise
 type contains_cycle(bool)
-rel contains_cycle(b) = b := exists(a, b: scc(a, b) and a != b)
+rel contains_cycle(r) = r := exists(a, b: scc(a, b) and a != b)
 
 // Practice 7: Count the number of nodes
 //   Definition: `num_nodes(n)` means there are in total `n` nodes in the graph
