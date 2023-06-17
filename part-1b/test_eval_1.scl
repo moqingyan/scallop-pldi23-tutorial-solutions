@@ -1,0 +1,6 @@
+import "scene_graph.scl"
+
+const MY_QUERY = Count(Scene())
+
+query query_to_string(MY_QUERY, s)
+query result(MY_QUERY, r)

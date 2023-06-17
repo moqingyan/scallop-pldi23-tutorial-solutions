@@ -3,20 +3,46 @@ type length(n: usize)
 
 rel digit = {"0", "1", "2", "3", "4", "5", "6", "7", "8", "9"}
 
-type factor(value: f32, begin: usize, end: usize)
-rel factor(x as f32, b, b + 1) = symbol(b, x) and digit(x)
+// =========== YOUR CODE START HERE ===========
 
+// ** Problem 1: term **
+//
+// A term is a digit of 0-9
+//
+// > TERM := 0 | ... | 9
+//
+type term(value: f32, begin: usize, end: usize)
+rel term(s as f32, b, b + 1) = symbol(b, s) and digit(s)
+
+// ** Problem 2: mult_div **
+//
+// A mult_div expression is a multiplication/division expression
+//
+// > MULT_DIV := TERM
+// >           | MULT_DIV * TERM
+// >           | MULT_DIV / TERM
 type mult_div(value: f32, begin: usize, end: usize)
-rel mult_div(x, b, r) = factor(x, b, r)
-rel mult_div(x * y, b, e) = mult_div(x, b, m) and symbol(m, "*") and factor(y, m + 1, e)
-rel mult_div(x / y, b, e) = mult_div(x, b, m) and symbol(m, "/") and factor(y, m + 1, e)
+rel mult_div(v, b, e) = term(v, b, e)
+rel mult_div(x * y, b, e) = mult_div(x, b, m) and symbol(m, "*") and term(y, m + 1, e)
+rel mult_div(x / y, b, e) = mult_div(x, b, m) and symbol(m, "/") and term(y, m + 1, e)
 
+// ** Problem 3: add_minus **
+//
+// An add_minus expression is a addition/subtraction expression
+//
+// > ADD_MINUS := MULT_DIV
+// >            | ADD_MINUS + MULT_DIV
+// >            | ADD_MINUS - MULT_DIV
 type add_minus(value: f32, begin: usize, end: usize)
-rel add_minus(x, b, r) = mult_div(x, b, r)
+rel add_minus(v, b, e) = mult_div(v, b, e)
 rel add_minus(x + y, b, e) = add_minus(x, b, m) and symbol(m, "+") and mult_div(y, m + 1, e)
 rel add_minus(x - y, b, e) = add_minus(x, b, m) and symbol(m, "-") and mult_div(y, m + 1, e)
 
+// ** Problem 4: result **
+//
+// `value` is the final result of evaluating the expression
+// it should make use of the `add_minus` relation defined above
 type result(value: f32)
-rel result(y) = add_minus(y, 0, l) and length(l)
+rel result(v) = add_minus(v, 0, len) and length(len)
 
-query result
+// =========== YOUR CODE END HERE ===========
