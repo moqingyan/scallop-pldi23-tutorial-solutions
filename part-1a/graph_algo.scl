@@ -55,4 +55,4 @@ rel in_degree(a, d) = d := count(b: edge(b, a) where a: node(a))
 // Practice 9: Write a `out_degree` relationship
 //   Definition: `out_degree(a, x)` means there are `x` edges going out from node `a`
 type out_degree(node: usize, degree: usize)
-rel in_degree(a, d) = d := count(b: edge(a, b) where a: node(a))
+rel out_degree(a, d) = d := count(b: edge(a, b) where a: node(a))
